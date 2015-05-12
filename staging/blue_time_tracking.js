@@ -295,6 +295,8 @@ function createFormstackReferenceLink() {
 	var satisfactionSurveyLink = "";
   var serviceAgreementLinkMsg = "Prepare service agreement";
   var serviceAgreementStatus = getServiceAgreementStatus();
+  var encodedParams = encodeURIComponent("?view_type=consultant");
+
 
   if (serviceAgreementStatus=="Finalized"||serviceAgreementStatus=="Accepted"||serviceAgreementStatus=="Rejected") {
     serviceAgreementLinkMsg = "View service agreement";
@@ -318,7 +320,7 @@ function createFormstackReferenceLink() {
 		// The /631134 is a proprietary number added at the end of a view link by Formstack per form. It is NOT equal to the FormID
 		formstackViewLink = 'https://www.formstack.com/admin/submission/view/' + uniqueId + '/631134?share=47XU7x6Q7f';
 		formstackEditLink = 'https://www.formstack.com/admin/submission/edit/' + uniqueId + '/S631134';
-		serviceAgreementEditLink = 'http://s.sc-ctsi.org/service_agreements/new/' + uniqueId + '/' + projectId + '/' + assignedToName;
+		serviceAgreementEditLink = 'http://s.sc-ctsi.org/service_agreements/new/' + uniqueId + '/' + projectId + '/' + assignedToName + encodedParams;
 		satisfactionSurveyLink = 'http://services.sc-ctsi.org/satisfaction_surveys/new/' + uniqueId + '/' + projectId + '/' + assignedToName;
 	}
 
@@ -332,7 +334,7 @@ function createFormstackReferenceLink() {
     // The /631134 is a proprietary number added at the end of a view link by Formstack per form. It is NOT equal to the FormID
     formstackViewLink = 'https://www.formstack.com/admin/submission/view/' + uniqueId + '/631134?share=47XU7x6Q7f';
     formstackEditLink = 'https://www.formstack.com/admin/submission/edit/' + uniqueId + '/S631134';
-    serviceAgreementEditLink = 'http://services-staging.sc-ctsi.org/service_agreements/new/' + uniqueId + '/' + projectId + '/' + assignedToName;
+		serviceAgreementEditLink = 'http://s.sc-ctsi.org/service_agreements/new/' + uniqueId + '/' + projectId + '/' + assignedToName + encodedParams;
     satisfactionSurveyLink = 'http://services-staging.sc-ctsi.org/satisfaction_surveys/new/' + uniqueId + '/' + projectId + '/' + assignedToName;
   }
 	$jq("#customer_tab").append("<a class='formstack-reference-link' target='_blank' href='" + formstackViewLink + "'>View intake form</a>");
