@@ -25,7 +25,42 @@ $jq(document).ready(function() {
   getTotalEstimatedTime();
 });
 
+function getServiceAgreementBaseURL() {
+  var environment = getHostEnvironment();
+  var services_api = "";
+  if (environment=="staging") {  //staging
+    services_api = "http://services-staging.sc-ctsi.org/1/service_agreements/";
+  }
+  else if (environment=="production") {
+    services_api = "http://services.sc-ctsi.org/1/service_agreements/";
+  }
+  return services_api;
+}
 
+function getServiceAgreementStatus() {
+  var status = "New";
+  var services_api;
+  var project_id = $jq("div.box_title span.box_title_big").html(); //12951
+  services_api = getServiceAgreementBaseURL();
+  $jq.ajax({
+    url: services_api+project_id,
+    async: false,
+    data: {
+      format: 'json'
+    },
+    error: function() {
+     console.log('An error calling the service_agreement API occurred');
+    },
+    dataType: 'json',
+    success: function(data) {
+      if (data.response.length > 0) {
+        status = data.response[0]["status"];
+      }
+    }, 
+    type: 'GET'
+  });
+  return status;
+}
 
 function getTotalEstimatedTime() {
   var project_id = $jq("div.box_title span.box_title_big").html(); //12951
@@ -258,7 +293,13 @@ function createFormstackReferenceLink() {
 	var formstackEditLink = "";
 	var serviceAgreementEditLink = "";
 	var satisfactionSurveyLink = "";
+  var serviceAgreementLinkMsg = "Prepare service agreement";
+  var serviceAgreementStatus = getServiceAgreementStatus();
 
+  if (serviceAgreementStatus=="Finalized"||serviceAgreementStatus=="Accepted"||serviceAgreementStatus=="Rejected") {
+    serviceAgreementLinkMsg = "View service agreement";
+  }
+  
 	// Staging (eHome HelpSpot Install)
 	if (host.toLowerCase().indexOf("support.sc-ctsi.org") != -1) {
 		var formId = $jq("#Custom2").val();
@@ -296,6 +337,6 @@ function createFormstackReferenceLink() {
   }
 	$jq("#customer_tab").append("<a class='formstack-reference-link' target='_blank' href='" + formstackViewLink + "'>View intake form</a>");
 	$jq("#customer_tab").append("<a class='formstack-reference-link' target='_blank' href='" + formstackEditLink + "'>Edit intake form (Login required)</a>");
-	$jq("#customer_tab").append("<a onclick=\"return confirm('Send Service Agreement?')\" class='formstack-reference-link' target='_blank' href='" + serviceAgreementEditLink + "'>Test Link</a>");
+	$jq("#customer_tab").append("<a onclick=\"return confirm('" + serviceAgreementLinkMsg + "')\" class='formstack-reference-link' target='_blank' href='" + serviceAgreementEditLink + "'>Test Link</a>");
 	$jq("#customer_tab").append("<a onclick=\"return confirm('Send Satisfaction Survey?')\" class='formstack-reference-link' target='_blank' href='" + satisfactionSurveyLink + "'>Send Satisfaction Survey</a>");
 }
