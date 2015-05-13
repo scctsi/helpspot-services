@@ -36,17 +36,17 @@ function getTotalEstimatedTime() {
       format: 'json'
     },
     error: function() {
-     console.log('An error calling the service_agreement API occurred');
+     //console.log('An error calling the service_agreement API occurred');
     },
     dataType: 'json',
     success: function(data) {
       var estimated_total_time = data.response[0]["estimated_total_time"];
-      console.log("Estimated total time: " + estimated_total_time);
+      //console.log("Estimated total time: " + estimated_total_time);
       var clock_time =  $jq('form div.box_title #time-tracker-total').html();
       var clock = clock_time.split(":");
       var actual_hours =  parseFloat(clock[0]) + parseFloat(clock[1])/60.0;
       var remaining_time = (estimated_total_time - actual_hours).toFixed(2);
-      console.log("Remaining time: " + remaining_time);
+      //console.log("Remaining time: " + remaining_time);
       //addTotalEstimatedTimeHTML(estimated_total_time, remaining_time)
     }, 
     type: 'GET'
