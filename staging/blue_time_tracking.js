@@ -43,7 +43,7 @@ function getServiceAgreementStatus() {
   var project_id = $jq("div.box_title span.box_title_big").html(); //12951
   services_api = getServiceAgreementBaseURL();
   $jq.ajax({
-    url: services_api+project_id,
+    url: services_api + project_id,
     async: false,
     data: {
       format: 'json'
@@ -295,7 +295,7 @@ function createFormstackReferenceLink() {
 	var satisfactionSurveyLink = "";
   var serviceAgreementLinkMsg = "Prepare service agreement";
   var serviceAgreementStatus = getServiceAgreementStatus();
-  var encodedParams = encodeURIComponent("?view_type=consultant");
+  var encodedParams = "?view_type=consultant";
 
 
   if (serviceAgreementStatus=="Finalized"||serviceAgreementStatus=="Accepted"||serviceAgreementStatus=="Rejected") {
