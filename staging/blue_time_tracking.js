@@ -90,6 +90,11 @@ function getTotalEstimatedTime() {
         var actual_hours =  parseFloat(clock[0]) + parseFloat(clock[1])/60.0;
         var remaining_time = (estimated_total_time - actual_hours).toFixed(2);
         //console.log("Remaining time: " + remaining_time);
+        var percent = remaining_time / estimated_total_time;
+        if (percent <= 0.10 ) {
+          alert('Actual time spent is within 10% of Total Estimated Time or has exceeded it.  An email has been sent to PET@sc-ctsi.org');
+        }
+
         estimated_total_time = convertHoursToHourMinute(estimated_total_time);
         remaining_time = convertHoursToHourMinute(remaining_time);
         addTotalEstimatedTimeHTML(estimated_total_time, remaining_time);
